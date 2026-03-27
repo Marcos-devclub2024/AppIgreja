@@ -9,7 +9,7 @@ export default function Home() {
       }}
     >
       <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "16px" }}>
-        Sistema da Igreja
+        Sistema da Igreja - On-line
       </h1>
 
       <p style={{ marginBottom: "24px", color: "#4b5563" }}>
