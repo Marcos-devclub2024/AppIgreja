@@ -1,98 +1,109 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+import {
+  Linking,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function App() {
+  // Função para abrir os links (WhatsApp, YouTube, etc)
+  const openSocial = (url) => {
+    Linking.openURL(url).catch((err) =>
+      console.error("Erro ao abrir link", err),
+    );
+  };
 
-export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScrollView style={styles.container}>
+      {/* Cabeçalho com o ícone corrigido */}
+      <LinearGradient
+        colors={["#1a2a6c", "#b21f1f", "#fdbb2d"]}
+        style={styles.header}
+      >
+        <Ionicons name="home" size={60} color="white" />
+        <Text style={styles.title}>Igreja Pentecostal</Text>
+        <Text style={styles.subtitle}>"Levando a Palavra ao Coração"</Text>
+      </LinearGradient>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View style={styles.content}>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>🙏 Nossos Cultos</Text>
+          <Text style={styles.cardText}>
+            • Domingo: 19:00h - Culto da Família
+          </Text>
+          <Text style={styles.cardText}>
+            • Quarta-feira: 20:00h - Culto de Ensino
+          </Text>
+          <Text style={styles.cardText}>
+            • Sexta-feira: 19:30h - Círculo de Oração
+          </Text>
+        </View>
+
+        {/* BOTÃO DO WHATSAPP - Coloque seu número abaixo */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => openSocial("https://wa.me/5561993677819")}
+        >
+          <Ionicons name="logo-whatsapp" size={24} color="white" />
+          <Text style={styles.buttonText}>Falar com o Pastor</Text>
+        </TouchableOpacity>
+
+        {/* BOTÃO DO CULTO AO VIVO */}
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: "#FF0000" }]}
+          onPress={() => openSocial("https://www.youtube.com")}
+        >
+          <Ionicons name="videocam" size={24} color="white" />
+          <Text style={styles.buttonText}>Culto ao Vivo</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: { flex: 1, backgroundColor: "#f5f5f5" },
+  header: {
+    padding: 40,
+    alignItems: "center",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: { color: "white", fontSize: 28, fontWeight: "bold", marginTop: 10 },
+  subtitle: { color: "white", fontSize: 16, fontStyle: "italic" },
+  content: { padding: 20 },
+  card: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 15,
+    elevation: 5,
+    marginBottom: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#333",
+  },
+  cardText: { fontSize: 16, color: "#666", marginBottom: 5 },
+  button: {
+    backgroundColor: "#25D366",
+    padding: 15,
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 10,
   },
 });
