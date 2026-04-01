@@ -30,12 +30,8 @@ export default function TabLayout() {
             }}
           >
             <Image
-              // NOME CORRIGIDO ABAIXO:
               source={require("../../assets/images/logo_arte.png")}
-              style={{
-                width: 180,
-                height: 110,
-              }}
+              style={{ width: 180, height: 110 }}
               resizeMode="contain"
             />
           </View>
