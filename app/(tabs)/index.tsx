@@ -1,94 +1,116 @@
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 
-// Definição das cores principais (Fé e Ouro)
+// Definição de Cores Oficiais IPAA
 const CORES = {
-  primaria: "#a52a2a", // Vermelho Vinho (Sangue e Fogo)
-  secundaria: "#ffd700", // Dourado (A Arca da Aliança)
-  fundo: "#fdfcf0", // Creme suave (Acolhedor)
-  textoEscuro: "#3e2723", // Marrom escuro (Para textos)
-  textoClaro: "#fff", // Branco (Para o cabeçalho)
+  vinho: "#a52a2a",
+  dourado: "#ffd700",
+  marrom: "#3e2723",
+  fundo: "#fdfcf0",
+  branco: "#ffffff",
 };
 
 export default function HomeScreen() {
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* 🏛️ CABEÇALHO COM O LOGO CORRETO (ARCA DA ALIANÇA) */}
-      <View style={styles.header}>
-        {/* Usamos um ícone dourado que simboliza a glória e o fogo */}
-        <FontAwesome5
-          name="place-of-worship"
-          size={60}
-          color={CORES.secundaria}
-        />
-        {/* Nome Completo da Igreja */}
-        <Text style={styles.churchName}>Igreja Pentecostal</Text>
-        <Text style={styles.churchName}>Arca da Aliança</Text>
-        {/* Abreviação IPAA */}
-        <View style={styles.abbreviationBadge}>
-          <Text style={styles.abbreviationText}>IPAA</Text>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 50 }}
+    >
+      <View style={styles.banner}>
+        <Text style={styles.igrejaNome}>IGREJA PENTECOSTAL</Text>
+        <Text style={styles.igrejaNomeDestaque}>ARCA DA ALIANÇA</Text>
+
+        <View style={styles.badgeIPAA}>
+          <Text style={styles.badgeText}>IPAA</Text>
         </View>
       </View>
 
-      <View style={styles.content}>
-        {/* 📖 MENSAGEM BÍBLICA (O CORAÇÃO DO APP) */}
-        <View style={styles.versiculoCard}>
-          <Ionicons
-            name="book"
-            size={24}
-            color={CORES.primaria}
-            style={{ marginBottom: 5 }}
+      {/* Card do Versículo */}
+      <View style={styles.versiculoCard}>
+        <MaterialCommunityIcons
+          name="book-open-variant"
+          size={28}
+          color={CORES.vinho}
+        />
+        <Text style={styles.versiculoTexto}>
+          "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."
+        </Text>
+        <Text style={styles.versiculoReferencia}>Salmos 119:105</Text>
+      </View>
+
+      {/* Seção: Horários dos Cultos */}
+      <Text style={styles.sectionTitle}>Horários dos Cultos</Text>
+
+      <View style={styles.horariosWrapper}>
+        {/* TERÇA-FEIRA */}
+        <View style={styles.cardHorario}>
+          <View style={[styles.diaIcon, { backgroundColor: CORES.vinho }]}>
+            <Text style={styles.diaTexto}>TER</Text>
+          </View>
+          <View style={styles.infoHorario}>
+            <Text style={styles.cultoTitulo}>Ensino da Palavra</Text>
+            <Text style={styles.cultoHora}>19:30h às 21:30h</Text>
+          </View>
+        </View>
+
+        {/* QUINTA-FEIRA */}
+        <View style={styles.cardHorario}>
+          <View style={[styles.diaIcon, { backgroundColor: CORES.vinho }]}>
+            <Text style={styles.diaTexto}>QUI</Text>
+          </View>
+          <View style={styles.infoHorario}>
+            <Text style={styles.cultoTitulo}>Cura e Libertação</Text>
+            <Text style={styles.cultoHora}>19:30h às 21:30h</Text>
+          </View>
+        </View>
+
+        {/* SÁBADO */}
+        <View style={styles.cardHorario}>
+          <View style={[styles.diaIcon, { backgroundColor: CORES.dourado }]}>
+            <Text style={[styles.diaTexto, { color: CORES.marrom }]}>SAB</Text>
+          </View>
+          <View style={styles.infoHorario}>
+            <Text style={styles.cultoTitulo}>Consagração</Text>
+            <Text style={styles.cultoHora}>07:30h às 08:30h</Text>
+          </View>
+        </View>
+
+        {/* DOMINGO */}
+        <View style={styles.cardHorario}>
+          <View style={[styles.diaIcon, { backgroundColor: CORES.vinho }]}>
+            <Text style={styles.diaTexto}>DOM</Text>
+          </View>
+          <View style={styles.infoHorario}>
+            <Text style={styles.cultoTitulo}>Culto da Família</Text>
+            <Text style={styles.cultoHora}>18:30h às 20:30h</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Painel Administrativo */}
+      <Text style={styles.sectionTitle}>Painel Administrativo - IPAA</Text>
+
+      <View style={styles.adminGrid}>
+        <TouchableOpacity style={styles.adminCard}>
+          <Ionicons name="people" size={30} color={CORES.vinho} />
+          <Text style={styles.adminCardText}>Membros</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.adminCard}>
+          <MaterialCommunityIcons
+            name="bullhorn"
+            size={30}
+            color={CORES.vinho}
           />
-          <Text style={styles.versiculoTexto}>
-            {
-              '"Lâmpada para os meus pés é tua palavra, e luz para o meu caminho."'
-            }
-          </Text>
-          <Text style={styles.versiculoReferencia}>Salmos 119:105</Text>
-        </View>
-
-        {/* 📅 AGENDA DE CULTOS (OS HORÁRIOS) */}
-        <Text style={styles.sectionTitle}>Horários dos Cultos</Text>
-        <View style={styles.cultosContainer}>
-          <View style={styles.cultoItem}>
-            <View style={styles.cultoDia}>
-              <Text style={styles.cultoDiaTexto}>DOM</Text>
-            </View>
-            <View style={styles.cultoInfo}>
-              <Text style={styles.cultoNome}>Culto de Celebração</Text>
-              <Text style={styles.cultoHora}>18:00h e 20:00h</Text>
-            </View>
-          </View>
-
-          <View style={styles.cultoItem}>
-            <View style={[styles.cultoDia, { backgroundColor: "#ff8c00" }]}>
-              <Text style={styles.cultoDiaTexto}>QUA</Text>
-            </View>
-            <View style={styles.cultoInfo}>
-              <Text style={styles.cultoNome}>Culto de Oração e Ensino</Text>
-              <Text style={styles.cultoHora}>19:30h</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* 🔘 PAINEL DE GESTÃO (ATALHOS) */}
-        <Text style={styles.sectionTitle}>Painel Administrativo - IPAA</Text>
-        <View style={styles.grid}>
-          <TouchableOpacity style={styles.card}>
-            <Ionicons name="people" size={30} color={CORES.primaria} />
-            <Text style={styles.cardLabel}>Membros</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.card}>
-            <Ionicons name="megaphone" size={30} color={CORES.primaria} />
-            <Text style={styles.cardLabel}>Mural de Avisos</Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={styles.adminCardText}>Mural de Avisos</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -97,115 +119,105 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: CORES.fundo },
   header: {
-    backgroundColor: CORES.primaria, // Vermelho Vinho (Acolhedor e Forte)
-    paddingTop: 70,
-    paddingBottom: 40,
+    backgroundColor: "#1a237e",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    overflow: "hidden",
+  },
+  topBar: { padding: 15, alignItems: "flex-start" },
+  topBarText: { color: "white", fontSize: 18, fontWeight: "500" },
+  banner: {
+    backgroundColor: CORES.vinho,
+    paddingVertical: 30,
     alignItems: "center",
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
-    elevation: 10, // Sombrinha forte
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
   },
-  churchName: {
-    color: CORES.textoClaro,
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 5,
-    textTransform: "uppercase", // Tudo maiúsculo
-    letterSpacing: 1, // Espaçamento entre letras
-  },
-  abbreviationBadge: {
-    backgroundColor: CORES.secundaria, // Dourado
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-    borderRadius: 15,
-    marginTop: 15,
-  },
-  abbreviationText: {
-    color: CORES.textoEscuro, // Marrom escuro para contraste
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-
-  content: { padding: 20 },
-
-  versiculoCard: {
-    backgroundColor: "#fff",
-    padding: 25,
-    borderRadius: 25,
-    marginTop: -55, // Faz o card subir sobre o vinho
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 15,
-    alignItems: "center",
-    borderTopWidth: 5, // Borda dourada no topo
-    borderTopColor: CORES.secundaria,
-  },
-  versiculoTexto: {
-    fontSize: 17,
-    color: CORES.textoEscuro,
-    fontStyle: "italic",
-    textAlign: "center",
-    lineHeight: 24,
-  },
-  versiculoReferencia: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: CORES.primaria,
-    marginTop: 12,
-  },
-
-  sectionTitle: {
+  igrejaNome: {
+    color: "white",
     fontSize: 20,
     fontWeight: "bold",
-    color: CORES.textoEscuro,
-    marginTop: 30,
+    letterSpacing: 1,
+  },
+  igrejaNomeDestaque: {
+    color: "white",
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  badgeIPAA: {
+    backgroundColor: CORES.dourado,
+    paddingHorizontal: 25,
+    paddingVertical: 5,
+    borderRadius: 20,
+  },
+  badgeText: { color: CORES.marrom, fontWeight: "bold", fontSize: 16 },
+
+  versiculoCard: {
+    backgroundColor: "white",
+    margin: 20,
+    padding: 20,
+    borderRadius: 20,
+    alignItems: "center",
+    elevation: 4,
+    marginTop: -20,
+  },
+  versiculoTexto: {
+    fontSize: 16,
+    fontStyle: "italic",
+    textAlign: "center",
+    marginVertical: 10,
+    color: "#444",
+  },
+  versiculoReferencia: { color: CORES.vinho, fontWeight: "bold", fontSize: 15 },
+
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: CORES.marrom,
+    marginLeft: 20,
+    marginTop: 25,
     marginBottom: 15,
   },
 
-  cultosContainer: {
-    backgroundColor: "#fff",
+  horariosWrapper: {
+    backgroundColor: "white",
+    marginHorizontal: 20,
     borderRadius: 20,
-    padding: 15,
-    elevation: 4,
+    padding: 10,
+    elevation: 3,
   },
-  cultoItem: {
+  cardHorario: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
+    padding: 12,
+    borderBottomWidth: 0.5,
     borderBottomColor: "#eee",
   },
-  cultoDia: {
-    backgroundColor: CORES.primaria,
-    width: 55,
-    height: 55,
-    borderRadius: 12,
+  diaIcon: {
+    width: 45,
+    height: 45,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
-  cultoDiaTexto: { color: CORES.textoClaro, fontWeight: "bold", fontSize: 16 },
-  cultoInfo: { marginLeft: 15 },
-  cultoNome: { fontSize: 17, fontWeight: "bold", color: CORES.textoEscuro },
-  cultoHora: { fontSize: 15, color: "#666" },
+  diaTexto: { color: "white", fontWeight: "bold", fontSize: 14 },
+  infoHorario: { marginLeft: 15 },
+  cultoTitulo: { fontSize: 16, fontWeight: "bold", color: "#333" },
+  cultoHora: { fontSize: 14, color: "#666" },
 
-  grid: { flexDirection: "row", justifyContent: "space-between" },
-  card: {
-    backgroundColor: "#fff",
-    width: "48%",
-    padding: 25,
+  adminGrid: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+  },
+  adminCard: {
+    backgroundColor: "white",
+    width: "47%",
+    padding: 20,
     borderRadius: 20,
     alignItems: "center",
-    elevation: 5,
-    borderWidth: 1,
-    borderColor: "#eee",
+    elevation: 3,
   },
-  cardLabel: {
-    marginTop: 12,
-    fontWeight: "bold",
-    color: CORES.primaria,
-    fontSize: 16,
-  },
+  adminCardText: { marginTop: 10, fontWeight: "bold", color: CORES.vinho },
 });

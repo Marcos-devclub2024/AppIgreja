@@ -6,11 +6,10 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#1a2a6c",
+        tabBarActiveTintColor: "#a52a2a", // Vinho IPAA quando selecionado
         tabBarInactiveTintColor: "#666",
-        headerShown: true,
-        headerStyle: { backgroundColor: "#1a2a6c" },
-        headerTintColor: "#fff",
+        headerShown: false, // Esconde o título de todas as telas para ficar limpo
+        tabBarStyle: { backgroundColor: "#fff" },
       }}
     >
       {/* 1. Tela Inicial */}
@@ -46,7 +45,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* 4. Financeiro (Explore) */}
+      {/* 4. Financeiro */}
       <Tabs.Screen
         name="explore"
         options={{

@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
@@ -16,6 +16,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
+// Definição de Cores da IPAA
+const CORES = {
+  vinho: "#a52a2a",
+  dourado: "#ffd700",
+  marrom: "#3e2723",
+  fundo: "#fdfcf0",
+  branco: "#ffffff",
+};
 
 export default function MembrosScreen() {
   const [nome, setNome] = useState("");
@@ -37,6 +46,7 @@ export default function MembrosScreen() {
 
   const SENHA_MESTRA = "1234";
 
+  // Máscaras
   const mascararData = (v: string) =>
     v
       .replace(/\D/g, "")
@@ -144,7 +154,7 @@ export default function MembrosScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#f4f7f6" }}>
+    <View style={{ flex: 1, backgroundColor: CORES.fundo }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
@@ -154,9 +164,18 @@ export default function MembrosScreen() {
           contentContainerStyle={{ flexGrow: 1, paddingBottom: 150 }}
           keyboardShouldPersistTaps="handled"
         >
-          <LinearGradient colors={["#1a2a6c", "#b21f1f"]} style={styles.header}>
+          <LinearGradient
+            colors={[CORES.vinho, CORES.marrom]}
+            style={styles.header}
+          >
+            <FontAwesome5
+              name="id-card"
+              size={40}
+              color={CORES.dourado}
+              style={{ marginBottom: 10 }}
+            />
             <Text style={styles.title}>Arca IPAA</Text>
-            <Text style={{ color: "white", opacity: 0.8 }}>
+            <Text style={{ color: "white", opacity: 0.9, fontWeight: "500" }}>
               Ficha Oficial de Membro
             </Text>
           </LinearGradient>
@@ -167,11 +186,11 @@ export default function MembrosScreen() {
               onPress={escolherFoto}
               style={styles.fotoContainer}
             >
-              <View style={styles.fotoBotao}>
+              <View style={[styles.fotoBotao, { borderColor: CORES.dourado }]}>
                 {foto ? (
                   <Image source={{ uri: foto }} style={styles.fotoMembro} />
                 ) : (
-                  <Ionicons name="camera" size={40} color="#666" />
+                  <Ionicons name="camera" size={40} color={CORES.vinho} />
                 )}
               </View>
             </TouchableOpacity>
@@ -181,6 +200,7 @@ export default function MembrosScreen() {
               style={styles.input}
               value={nome}
               onChangeText={setNome}
+              placeholder="Ex: João Silva"
             />
 
             <View
@@ -214,9 +234,9 @@ export default function MembrosScreen() {
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
               <View style={{ width: "55%" }}>
-                <Text style={styles.label}>CEP</Text>
+                <Text style={styles.label}>CEP (Automático)</Text>
                 <TextInput
-                  style={[styles.input, { backgroundColor: "#f0f4ff" }]}
+                  style={[styles.input, { backgroundColor: "#fff9e6" }]}
                   value={cep}
                   onChangeText={buscarCep}
                   keyboardType="numeric"
@@ -260,11 +280,12 @@ export default function MembrosScreen() {
                 />
               </View>
               <View style={{ width: "48%" }}>
-                <Text style={styles.label}>Cargo</Text>
+                <Text style={styles.label}>Cargo na Igreja</Text>
                 <TextInput
                   style={styles.input}
                   value={cargo}
                   onChangeText={setCargo}
+                  placeholder="Ex: Diácono"
                 />
               </View>
             </View>
@@ -277,7 +298,7 @@ export default function MembrosScreen() {
               {carregando ? (
                 <ActivityIndicator color="#fff" />
               ) : (
-                <Text style={styles.buttonText}>SALVAR MEMBRO</Text>
+                <Text style={styles.buttonText}>SALVAR NA ARCA</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -292,8 +313,8 @@ export default function MembrosScreen() {
           >
             {!autenticado ? (
               <View style={styles.lockContainer}>
-                <Ionicons name="lock-closed" size={30} color="#1a2a6c" />
-                <Text style={styles.lockText}>Área Restrita (Senha 1234)</Text>
+                <Ionicons name="lock-closed" size={30} color={CORES.vinho} />
+                <Text style={styles.lockText}>Área de Gestão (Senha IPAA)</Text>
                 <TextInput
                   style={styles.inputSenha}
                   placeholder="Senha"
@@ -318,19 +339,21 @@ export default function MembrosScreen() {
                     Membros ({membros.length})
                   </Text>
                   <TouchableOpacity onPress={() => setAutenticado(false)}>
-                    <Text style={{ color: "#b21f1f" }}>Bloquear</Text>
+                    <Text style={{ color: CORES.vinho, fontWeight: "bold" }}>
+                      Bloquear
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.buscaContainer}>
                   <Ionicons
                     name="search"
                     size={20}
-                    color="#1a2a6c"
+                    color={CORES.vinho}
                     style={{ marginLeft: 15 }}
                   />
                   <TextInput
                     style={styles.inputBusca}
-                    placeholder="Pesquisar..."
+                    placeholder="Pesquisar por nome ou cargo..."
                     value={busca}
                     onChangeText={setBusca}
                   />
@@ -362,7 +385,11 @@ export default function MembrosScreen() {
                         <Text style={styles.nomeMembro}>{m.nome}</Text>
                         <Text style={styles.cargoMembro}>{m.cargo}</Text>
                       </View>
-                      <Ionicons name="chevron-forward" size={20} color="#ccc" />
+                      <Ionicons
+                        name="chevron-forward"
+                        size={20}
+                        color={CORES.dourado}
+                      />
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -383,9 +410,8 @@ export default function MembrosScreen() {
               style={styles.closeBtn}
               onPress={() => setMembroSelecionado(null)}
             >
-              <Ionicons name="close-circle" size={35} color="#b21f1f" />
+              <Ionicons name="close-circle" size={35} color={CORES.vinho} />
             </TouchableOpacity>
-
             <ScrollView>
               <View style={{ alignItems: "center", marginBottom: 20 }}>
                 {membroSelecionado?.foto ? (
@@ -400,38 +426,35 @@ export default function MembrosScreen() {
                   {membroSelecionado?.nome}
                 </Text>
                 <View style={styles.tagCargo}>
-                  <Text style={{ color: "white" }}>
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
                     {membroSelecionado?.cargo}
                   </Text>
                 </View>
               </View>
-
               <View style={styles.infoRow}>
-                <Ionicons name="calendar-outline" size={20} color="#1a2a6c" />
+                <Ionicons
+                  name="calendar-outline"
+                  size={20}
+                  color={CORES.vinho}
+                />
                 <Text style={styles.infoText}>
                   <Text style={{ fontWeight: "bold" }}>Aniversário: </Text>
                   {membroSelecionado?.aniversario}
                 </Text>
               </View>
-
               <View style={styles.infoRow}>
-                <Ionicons name="card-outline" size={20} color="#1a2a6c" />
-                <Text style={styles.infoText}>
-                  <Text style={{ fontWeight: "bold" }}>CPF: </Text>
-                  {membroSelecionado?.cpf}
-                </Text>
-              </View>
-
-              <View style={styles.infoRow}>
-                <Ionicons name="call-outline" size={20} color="#1a2a6c" />
+                <Ionicons name="call-outline" size={20} color={CORES.vinho} />
                 <Text style={styles.infoText}>
                   <Text style={{ fontWeight: "bold" }}>Telefone: </Text>
                   {membroSelecionado?.telefone}
                 </Text>
               </View>
-
               <View style={styles.infoRow}>
-                <Ionicons name="location-outline" size={20} color="#1a2a6c" />
+                <Ionicons
+                  name="location-outline"
+                  size={20}
+                  color={CORES.vinho}
+                />
                 <View style={{ flex: 1 }}>
                   <Text style={styles.infoText}>
                     <Text style={{ fontWeight: "bold" }}>Endereço: </Text>
@@ -451,74 +474,90 @@ export default function MembrosScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { padding: 40, alignItems: "center" },
-  title: { color: "white", fontSize: 22, fontWeight: "bold" },
+  header: {
+    padding: 40,
+    alignItems: "center",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  title: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+  },
   form: {
     padding: 20,
     backgroundColor: "#fff",
     marginHorizontal: 15,
-    borderRadius: 15,
-    marginTop: -20,
-    elevation: 5,
+    borderRadius: 20,
+    marginTop: -30,
+    elevation: 8,
   },
   sessaoLabel: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#1a2a6c",
+    color: CORES.vinho,
     marginBottom: 15,
     textAlign: "center",
   },
   fotoContainer: { alignItems: "center", marginBottom: 15 },
   fotoBotao: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "#eee",
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: "#fff9e6",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ccc",
+    borderWidth: 2,
     overflow: "hidden",
   },
-  fotoMembro: { width: 80, height: 80 },
-  label: { fontSize: 12, fontWeight: "bold", color: "#1a2a6c", marginTop: 12 },
+  fotoMembro: { width: 90, height: 90 },
+  label: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: CORES.marrom,
+    marginTop: 12,
+  },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-    paddingVertical: 5,
-    fontSize: 14,
+    borderBottomColor: "#eee",
+    paddingVertical: 8,
+    fontSize: 15,
     color: "#333",
   },
   button: {
-    backgroundColor: "#1a2a6c",
-    padding: 15,
-    borderRadius: 10,
+    backgroundColor: CORES.vinho,
+    padding: 18,
+    borderRadius: 12,
     marginTop: 25,
     alignItems: "center",
+    borderBottomWidth: 4,
+    borderBottomColor: CORES.dourado,
   },
   buttonText: { color: "white", fontSize: 16, fontWeight: "bold" },
   lockContainer: { alignItems: "center", padding: 20 },
   lockText: {
     fontSize: 15,
-    color: "#1a2a6c",
+    color: CORES.marrom,
     marginBottom: 10,
     fontWeight: "bold",
   },
   inputSenha: {
     backgroundColor: "#fff",
     width: "60%",
-    padding: 10,
-    borderRadius: 8,
+    padding: 12,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: "#ddd",
     textAlign: "center",
   },
   btnUnlock: {
-    backgroundColor: "#1a2a6c",
-    padding: 12,
-    borderRadius: 8,
-    marginTop: 10,
-    width: "80%",
+    backgroundColor: CORES.vinho,
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 15,
+    width: "85%",
     alignItems: "center",
   },
   gestorHeader: {
@@ -528,73 +567,74 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignItems: "center",
   },
-  gestorTitle: { fontSize: 18, fontWeight: "bold", color: "#1a2a6c" },
+  gestorTitle: { fontSize: 20, fontWeight: "bold", color: CORES.marrom },
   buscaContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
     marginHorizontal: 20,
-    borderRadius: 10,
-    elevation: 3,
+    borderRadius: 12,
+    elevation: 4,
     marginBottom: 15,
   },
   inputBusca: { flex: 1, padding: 12, fontSize: 15 },
   cardMembro: {
     backgroundColor: "#FFF",
-    borderRadius: 12,
+    borderRadius: 15,
     padding: 15,
     marginHorizontal: 20,
     marginVertical: 6,
     elevation: 3,
-    borderLeftWidth: 5,
-    borderLeftColor: "#1a2a6c",
+    borderLeftWidth: 6,
+    borderLeftColor: CORES.dourado,
   },
-  fotoMini: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
-  nomeMembro: { fontSize: 16, fontWeight: "bold", color: "#1a2a6c" },
-  cargoMembro: { fontSize: 13, color: "#666" },
+  fotoMini: { width: 45, height: 45, borderRadius: 22.5, marginRight: 12 },
+  nomeMembro: { fontSize: 17, fontWeight: "bold", color: CORES.marrom },
+  cargoMembro: { fontSize: 14, color: "#777" },
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(0,0,0,0.7)",
     justifyContent: "center",
     padding: 20,
   },
   modalContent: {
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 25,
     padding: 25,
-    maxHeight: "80%",
-    elevation: 10,
+    maxHeight: "85%",
+    elevation: 20,
   },
   closeBtn: { alignSelf: "flex-end", marginBottom: -10 },
   fotoDetalhe: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    marginBottom: 10,
-    borderWidth: 3,
-    borderColor: "#1a2a6c",
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    marginBottom: 15,
+    borderWidth: 4,
+    borderColor: CORES.dourado,
   },
   nomeDetalhe: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#1a2a6c",
+    color: CORES.vinho,
     textAlign: "center",
   },
   tagCargo: {
-    backgroundColor: "#b21f1f",
-    paddingHorizontal: 15,
-    paddingVertical: 5,
+    backgroundColor: CORES.vinho,
+    paddingHorizontal: 20,
+    paddingVertical: 6,
     borderRadius: 20,
-    marginTop: 5,
+    marginTop: 8,
+    alignSelf: "center",
   },
   infoRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 15,
+    marginTop: 18,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    paddingBottom: 10,
+    borderBottomColor: "#f0f0f0",
+    paddingBottom: 12,
   },
-  infoText: { marginLeft: 10, fontSize: 15, color: "#444" },
-  enderecoTexto: { marginLeft: 30, color: "#666", fontSize: 14 },
+  infoText: { marginLeft: 12, fontSize: 16, color: "#444" },
+  enderecoTexto: { marginLeft: 35, color: "#666", fontSize: 15, marginTop: 4 },
 });
